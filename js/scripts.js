@@ -43,16 +43,12 @@ function checkedToDo(evt) {
 // render
 function renderTemplate(todoArr, element) {
   element.innerHTML = null;
+
   todoArr.forEach((list) => {
     const todoTemplate = eltodoTemplate.cloneNode(true);
     const elTodoItem = todoTemplate.querySelector(".todo-item-complete-text");
     const elTodoDeleteBtn = todoTemplate.querySelector(".todo-item-delete-btn");
     const elTodoChecked = todoTemplate.querySelector(".todo-input-complete");
-
-    elTodoItem.textContent = list.text;
-    elTodoDeleteBtn.dataset.todoId = list.id;
-    elTodoChecked.dataset.id_todo = list.id;
-    elTodoChecked.checked = list.isCompleted;
 
     let completed = 0;
     let uncompleted = 0;
@@ -64,6 +60,11 @@ function renderTemplate(todoArr, element) {
         uncompleted += 1;
       }
     });
+
+    elTodoItem.textContent = list.text;
+    elTodoDeleteBtn.dataset.todoId = list.id;
+    elTodoChecked.dataset.id_todo = list.id;
+    elTodoChecked.checked = list.isCompleted;
 
     elAllTodo.textContent = completed + uncompleted;
     elCompletedTodo.textContent = completed;
