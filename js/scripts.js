@@ -14,19 +14,20 @@ const elUncompletedTodo = document.querySelector(".uncomplated-count");
 
 const eltodoTemplate = document.querySelector("#todo-item--template").content;
 
-// const localToDos = JSON.parse(window.localStorage.getItem("todolist"));
-// const todos = localToDos || [];
-const todos = [];
+const localToDos = JSON.parse(window.localStorage.getItem("todosList"));
+const todos = localToDos || [];
+// const todos = [];
 
+elAllTodo.textContent = 0;
+elCompletedTodo.textContent = 0;
+elUncompletedTodo.textContent = 0;
 // delete btn function
 function deleteToDo(evt) {
   const toDoId = evt.target.dataset.todoId;
-
   const foundTodoIndex = todos.findIndex((list) => list.id == toDoId);
-
   todos.splice(foundTodoIndex, 1);
 
-  // window.localStorage.setItem("todolist", JSON.stringify(todos));
+  window.localStorage.setItem("todosList", JSON.stringify(todos));
   renderTemplate(todos, eltodoList);
 }
 
@@ -36,7 +37,7 @@ function checkedToDo(evt) {
   const foundTodo = todos.find((list) => list.id == toDoId);
   foundTodo.isCompleted = !foundTodo.isCompleted;
 
-  // window.localStorage.setItem("todolist", JSON.stringify(todos));
+  window.localStorage.setItem("todosList", JSON.stringify(todos));
   renderTemplate(todos, eltodoList);
 }
 
@@ -49,7 +50,6 @@ function renderTemplate(todoArr, element) {
     const elTodoItem = todoTemplate.querySelector(".todo-item-complete-text");
     const elTodoDeleteBtn = todoTemplate.querySelector(".todo-item-delete-btn");
     const elTodoChecked = todoTemplate.querySelector(".todo-input-complete");
-
     let completed = 0;
     let uncompleted = 0;
 
@@ -94,7 +94,7 @@ elForm.addEventListener("submit", (evt) => {
     isCompleted: false,
   });
   elInput.value = null;
-  // window.localStorage.setItem("todolist", JSON.stringify(todos));
+  window.localStorage.setItem("todosList", JSON.stringify(todos));
   renderTemplate(todos, eltodoList);
 });
 renderTemplate(todos, eltodoList);
