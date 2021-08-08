@@ -18,9 +18,6 @@ const localToDos = JSON.parse(window.localStorage.getItem("todosList"));
 const todos = localToDos || [];
 // const todos = [];
 
-elAllTodo.textContent = 0;
-elCompletedTodo.textContent = 0;
-elUncompletedTodo.textContent = 0;
 // delete btn function
 function deleteToDo(evt) {
   const toDoId = evt.target.dataset.todoId;
@@ -45,30 +42,31 @@ function checkedToDo(evt) {
 function renderTemplate(todoArr, element) {
   element.innerHTML = null;
 
+  let completed = 0;
+  let uncompleted = 0;
+
+  todoArr.filter((list) => {
+    if (list.isCompleted === true) {
+      completed += 1;
+    } else {
+      uncompleted += 1;
+    }
+  });
+
+  elAllTodo.textContent = completed + uncompleted;
+  elCompletedTodo.textContent = completed;
+  elUncompletedTodo.textContent = uncompleted;
+
   todoArr.forEach((list) => {
     const todoTemplate = eltodoTemplate.cloneNode(true);
     const elTodoItem = todoTemplate.querySelector(".todo-item-complete-text");
     const elTodoDeleteBtn = todoTemplate.querySelector(".todo-item-delete-btn");
     const elTodoChecked = todoTemplate.querySelector(".todo-input-complete");
-    let completed = 0;
-    let uncompleted = 0;
-
-    todoArr.filter((list) => {
-      if (list.isCompleted === true) {
-        completed += 1;
-      } else {
-        uncompleted += 1;
-      }
-    });
 
     elTodoItem.textContent = list.text;
     elTodoDeleteBtn.dataset.todoId = list.id;
     elTodoChecked.dataset.id_todo = list.id;
     elTodoChecked.checked = list.isCompleted;
-
-    elAllTodo.textContent = completed + uncompleted;
-    elCompletedTodo.textContent = completed;
-    elUncompletedTodo.textContent = uncompleted;
 
     if (list.isCompleted) {
       elTodoItem.classList.add("done");
