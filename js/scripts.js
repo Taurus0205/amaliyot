@@ -8,6 +8,11 @@ const elForm = document.querySelector(".todo-form");
 const elInput = document.querySelector(".form-control");
 const eltodoList = document.querySelector(".todo-list");
 
+const elAllBtn = document.querySelector(".all-btn");
+const elCompletedBtn = document.querySelector(".completed-btn");
+const elUncompletedBtn = document.querySelector(".uncompleted-btn");
+const elClearBtn = document.querySelector(".clear-btn");
+
 const elAllTodo = document.querySelector(".all-count");
 const elCompletedTodo = document.querySelector(".complated-count");
 const elUncompletedTodo = document.querySelector(".uncomplated-count");
@@ -15,7 +20,7 @@ const elUncompletedTodo = document.querySelector(".uncomplated-count");
 const eltodoTemplate = document.querySelector("#todo-item--template").content;
 
 const localToDos = JSON.parse(window.localStorage.getItem("todosList"));
-const todos = localToDos || [];
+let todos = localToDos || [];
 // const todos = [];
 
 // delete btn function
@@ -36,6 +41,41 @@ function checkedToDo(evt) {
 
   window.localStorage.setItem("todosList", JSON.stringify(todos));
   renderTemplate(todos, eltodoList);
+}
+
+let resultArr = [];
+// clear btn function
+function handleClearBtn() {
+  todos = resultArr;
+  eltodoList.innerHTML = null;
+  window.localStorage.clear();
+  renderTemplate(todos, eltodoList);
+}
+
+// all btn function
+function handleAllBtn() {
+  eltodoList.innerHTML = null;
+
+  window.localStorage.setItem("todosList", JSON.stringify(todos));
+  renderTemplate(todos, eltodoList);
+}
+
+// completed btn function
+function handleCompletedBtn() {
+  eltodoList.innerHTML = null;
+  let completedArr = todos.filter((list) => list.isCompleted == true);
+
+  window.localStorage.setItem("todosList", JSON.stringify(todos));
+  renderTemplate(completedArr, eltodoList);
+}
+
+// uncompleted btn function
+function handleUncompletedBtn() {
+  eltodoList.innerHTML = null;
+  let uncompletedArr = todos.filter((list) => list.isCompleted == false);
+
+  window.localStorage.setItem("todosList", JSON.stringify(todos));
+  renderTemplate(uncompletedArr, eltodoList);
 }
 
 // render
@@ -76,6 +116,14 @@ function renderTemplate(todoArr, element) {
 
     elTodoChecked.addEventListener("click", checkedToDo);
 
+    elClearBtn.addEventListener("click", handleClearBtn);
+
+    elAllBtn.addEventListener("click", handleAllBtn);
+
+    elCompletedBtn.addEventListener("click", handleCompletedBtn);
+
+    elUncompletedBtn.addEventListener("click", handleUncompletedBtn);
+
     element.appendChild(todoTemplate);
   });
 }
@@ -84,10 +132,10 @@ elForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const newInput = elInput.value.trim();
 
-  const uniqueId = todos[todos.length - 1] ? todos[todos.length - 1].id + 1 : 1;
+  const uniqueId = todos[todos.length - 1] ? todos[todos.length - 1].id : 0;
 
   todos.push({
-    id: uniqueId,
+    id: uniqueId + 1,
     text: newInput,
     isCompleted: false,
   });

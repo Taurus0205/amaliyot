@@ -23,9 +23,21 @@
         </form>
         <ul class="todo-list list-group mb-4"></ul>
         <div class="d-flex justify-content-between">
-          <p><span class="all-count"></span> all</p>
-          <p><span class="complated-count"></span> complated</p>
-          <p><span class="uncomplated-count"></span> uncomplateds</p>
+          <button class="all-btn btn btn-light" type="button">
+            All: <span class="all-count"></span>
+          </button>
+
+          <button class="completed-btn btn btn-light" type="button">
+            Complated: <span class="complated-count"></span>
+          </button>
+
+          <button class="uncompleted-btn btn btn-light" type="button">
+            Uncompleted: <span class="uncomplated-count"></span>
+          </button>
+
+          <button class="clear-btn btn btn-danger" type="button">
+            Clear <span class="all-count"></span>
+          </button>
         </div>
       </div>
     </div>
